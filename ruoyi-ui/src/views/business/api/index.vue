@@ -2,42 +2,22 @@
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
       <el-form-item label="分类" prop="category">
-        <el-select
-          v-model="queryParams.category"
-          placeholder="请选择分类"
-          clearable
-          @keyup.enter.native="handleQuery"
-        >
+        <el-select v-model="queryParams.category" placeholder="请选择分类" clearable @keyup.enter.native="handleQuery">
           <el-option label="游戏" value="0" />
           <el-option label="用户" value="1" />
         </el-select>
       </el-form-item>
       <el-form-item label="平台" prop="platform">
-        <el-select
-          v-model="queryParams.platform"
-          placeholder="请选择平台"
-          clearable
-          @keyup.enter.native="handleQuery"
-        >
+        <el-select v-model="queryParams.platform" placeholder="请选择平台" clearable @keyup.enter.native="handleQuery">
           <el-option label="石头岛" value="0" />
           <el-option label="鲸鱼" value="1" />
         </el-select>
       </el-form-item>
       <el-form-item label="接口名称" prop="name">
-        <el-input
-          v-model="queryParams.name"
-          placeholder="请输入接口名称"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
+        <el-input v-model="queryParams.name" placeholder="请输入接口名称" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
       <el-form-item label="请求方式" prop="method">
-        <el-input
-          v-model="queryParams.method"
-          placeholder="请输入请求方式"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
+        <el-input v-model="queryParams.method" placeholder="请输入请求方式" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -47,46 +27,20 @@
 
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
-        <el-button
-          type="primary"
-          plain
-          icon="el-icon-plus"
-          size="mini"
-          @click="handleAdd"
-          v-hasPermi="['business:api:add']"
-        >新增</el-button>
+        <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd"
+          v-hasPermi="['business:api:add']">新增</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button
-          type="success"
-          plain
-          icon="el-icon-edit"
-          size="mini"
-          :disabled="single"
-          @click="handleUpdate"
-          v-hasPermi="['business:api:edit']"
-        >修改</el-button>
+        <el-button type="success" plain icon="el-icon-edit" size="mini" :disabled="single" @click="handleUpdate"
+          v-hasPermi="['business:api:edit']">修改</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button
-          type="danger"
-          plain
-          icon="el-icon-delete"
-          size="mini"
-          :disabled="multiple"
-          @click="handleDelete"
-          v-hasPermi="['business:api:remove']"
-        >删除</el-button>
+        <el-button type="danger" plain icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete"
+          v-hasPermi="['business:api:remove']">删除</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button
-          type="warning"
-          plain
-          icon="el-icon-download"
-          size="mini"
-          @click="handleExport"
-          v-hasPermi="['business:api:export']"
-        >导出</el-button>
+        <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport"
+          v-hasPermi="['business:api:export']">导出</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
@@ -102,82 +56,97 @@
       <el-table-column label="状态" align="center" prop="status" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-edit"
-            @click="handleUpdate(scope.row)"
-            v-hasPermi="['business:api:edit']"
-          >修改</el-button>
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-delete"
-            @click="handleDelete(scope.row)"
-            v-hasPermi="['business:api:remove']"
-          >删除</el-button>
+          <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)"
+            v-hasPermi="['business:api:edit']">修改</el-button>
+          <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)"
+            v-hasPermi="['business:api:remove']">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
-    
-    <pagination
-      v-show="total>0"
-      :total="total"
-      :page.sync="queryParams.pageNum"
-      :limit.sync="queryParams.pageSize"
-      @pagination="getList"
-    />
+
+    <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
+      @pagination="getList" />
 
     <!-- 添加或修改游戏接口对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
+    <el-dialog :title="title" :visible.sync="open" width="65%" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="分类" prop="category">
-          <el-select v-model="form.category" placeholder="请选择分类">
-            <el-option label="游戏" value="0" />
-            <el-option label="用户" value="1" />
-          </el-select>
-        </el-form-item>
-        <el-form-item label="平台" prop="platform">
-          <el-select v-model="form.platform" placeholder="请选择平台">
-            <el-option label="石头岛" value="0" />
-            <el-option label="鲸鱼" value="1" />
-          </el-select>
-        </el-form-item>
-        <el-form-item label="接口名称" prop="name">
-          <el-input v-model="form.name" placeholder="请输入接口名称" />
-        </el-form-item>
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item label="分类" prop="category">
+              <el-select v-model="form.category" placeholder="请选择分类">
+                <el-option label="游戏" value="0" />
+                <el-option label="用户" value="1" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="平台" prop="platform">
+              <el-select v-model="form.platform" placeholder="请选择平台">
+                <el-option label="石头岛" value="0" />
+                <el-option label="鲸鱼" value="1" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item label="接口名称" prop="name">
+              <el-input v-model="form.name" placeholder="请输入接口名称" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="请求方式" prop="method">
+              <el-select v-model="form.method" placeholder="请选择请求方式">
+                <el-option label="GET" value="GET" />
+                <el-option label="POST" value="POST" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
         <el-form-item label="接口URL" prop="api">
           <el-input v-model="form.api" type="textarea" placeholder="请输入内容" />
-        </el-form-item>
-        <el-form-item label="请求方式" prop="method">
-          <el-select v-model="form.method" placeholder="请选择请求方式">
-            <el-option label="GET" value="GET" />
-            <el-option label="POST" value="POST" />
-          </el-select>
         </el-form-item>
         <el-form-item label="代理" prop="proxy">
           <el-input v-model="form.proxy" placeholder="请输入代理" />
         </el-form-item>
-        <el-form-item label="超时时间(秒)" prop="timeout">
-          <el-input v-model="form.timeout" type="number" placeholder="请输入超时时间(秒)" />
-        </el-form-item>
-        <el-form-item label="重试次数" prop="retryTimes">
-          <el-input v-model="form.retryTimes" type="number" placeholder="请输入重试次数" />
-        </el-form-item>
-        <el-form-item label="重试间隔(秒)" prop="retryInterval">
-          <el-input v-model="form.retryInterval" type="number" placeholder="请输入重试间隔(秒)" />
-        </el-form-item>
-        <el-form-item label="下次执行间隔(秒)" prop="nextExecuteInterval">
-          <el-input v-model="form.nextExecuteInterval" type="number" placeholder="请输入下次执行间隔(秒)" />
-        </el-form-item>
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item label="超时时间(秒)" prop="timeout" label-width="120px">
+              <el-input v-model="form.timeout" type="number" placeholder="请输入超时时间(秒)" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="重试次数" prop="retryTimes" label-width="120px">
+              <el-input v-model="form.retryTimes" type="number" placeholder="请输入重试次数" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item label="重试间隔(秒)" prop="retryInterval" label-width="120px">
+              <el-input v-model="form.retryInterval" type="number" placeholder="请输入重试间隔(秒)" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="下次执行间隔(秒)" prop="nextExecuteInterval" label-width="150px">
+              <el-input v-model="form.nextExecuteInterval" type="number" placeholder="请输入下次执行间隔(秒)" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="18">
+            <el-form-item label="期望响应码(多个用逗号分隔)" prop="expectCode" label-width="120">
+              <el-input v-model="form.expectCode" placeholder="请输入期望响应码(多个用逗号分隔)" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="排序" prop="sort">
+              <el-input v-model="form.sort" type="number" placeholder="请输入排序" />
+            </el-form-item>
+          </el-col>
+        </el-row>
         <el-form-item label="响应格式" prop="respFormat">
           <el-input v-model="form.respFormat" placeholder="请输入响应格式" />
-        </el-form-item>
-        <el-form-item label="期望响应码(多个用逗号分隔)" prop="expectCode">
-          <el-input v-model="form.expectCode" placeholder="请输入期望响应码(多个用逗号分隔)" />
-        </el-form-item>
-        <el-form-item label="排序" prop="sort">
-          <el-input v-model="form.sort" type="number" placeholder="请输入排序" />
         </el-form-item>
         <el-form-item label="接口描述" prop="description">
           <el-input v-model="form.description" type="textarea" placeholder="请输入内容" />
@@ -297,7 +266,7 @@ export default {
     // 多选框选中数据
     handleSelectionChange(selection) {
       this.ids = selection.map(item => item.id)
-      this.single = selection.length!==1
+      this.single = selection.length !== 1
       this.multiple = !selection.length
     },
     /** 新增按钮操作 */
@@ -339,12 +308,12 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids
-      this.$modal.confirm('是否确认删除游戏接口编号为"' + ids + '"的数据项？').then(function() {
+      this.$modal.confirm('是否确认删除游戏接口编号为"' + ids + '"的数据项？').then(function () {
         return delApi(ids)
       }).then(() => {
         this.getList()
         this.$modal.msgSuccess("删除成功")
-      }).catch(() => {})
+      }).catch(() => { })
     },
     /** 导出按钮操作 */
     handleExport() {

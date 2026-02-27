@@ -127,10 +127,8 @@
           <el-input v-model="form.proxy" placeholder="请输入代理" />
         </el-form-item>
         <el-form-item label="金额" prop="amount">
-          <el-input v-model="form.amount" placeholder="请输入金额" />
-        </el-form-item>
-        <el-form-item label="访问令牌" prop="accessToken">
-          <el-input v-model="form.accessToken" type="textarea" placeholder="请输入内容" />
+          <!-- 设置最小金额为1100 -->
+          <el-input v-model="form.amount" placeholder="请输入金额" type="number" min="1100" />
         </el-form-item>
         <el-form-item label="平台" prop="platform">
           <el-select v-model="form.platform" placeholder="请选择平台">
@@ -215,7 +213,6 @@ export default {
         password: null,
         proxy: null,
         amount: null,
-        accessToken: null,
         platform: null,
         uaId: null
       }
