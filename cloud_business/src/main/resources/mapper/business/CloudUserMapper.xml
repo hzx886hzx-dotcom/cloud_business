@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.business.mapper.CloudUserMapper">
+    
+    <resultMap type="CloudUser" id="CloudUserResult">
+        <result property="id"    column="id"    />
+        <result property="username"    column="username"    />
+        <result property="password"    column="password"    />
+        <result property="proxy"    column="proxy"    />
+        <result property="amount"    column="amount"    />
+        <result property="accessToken"    column="access_token"    />
+        <result property="platform"    column="platform"    />
+        <result property="uaId"    column="ua_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="creator"    column="creator"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="version"    column="version"    />
+    </resultMap>
+
+    <sql id="selectCloudUserVo">
+        select id, username, password, proxy, amount, access_token, platform, ua_id, create_time, creator, create_by, version from cloud_user
+    </sql>
+
+    <select id="selectCloudUserList" parameterType="CloudUser" resultMap="CloudUserResult">
+        <include refid="selectCloudUserVo"/>
+        <where>  
+            <if test="username != null  and username != ''"> and username like concat('%', #{username}, '%')</if>
+            <if test="platform != null "> and platform = #{platform}</if>
+            <if test="creator != null  and creator != ''"> and creator = #{creator}</if>
+            <if test="version != null "> and version = #{version}</if>
+        </where>
+    </select>
+    
+    <select id="selectCloudUserById" parameterType="Long" resultMap="CloudUserResult">
+        <include refid="selectCloudUserVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertCloudUser" parameterType="CloudUser" useGeneratedKeys="true" keyProperty="id">
+        insert into cloud_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="username != null">username,</if>
+            <if test="password != null">password,</if>
+            <if test="proxy != null">proxy,</if>
+            <if test="amount != null">amount,</if>
+            <if test="accessToken != null">access_token,</if>
+            <if test="platform != null">platform,</if>
+            <if test="uaId != null">ua_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="creator != null">creator,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="version != null">version,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="username != null">#{username},</if>
+            <if test="password != null">#{password},</if>
+            <if test="proxy != null">#{proxy},</if>
+            <if test="amount != null">#{amount},</if>
+            <if test="accessToken != null">#{accessToken},</if>
+            <if test="platform != null">#{platform},</if>
+            <if test="uaId != null">#{uaId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="creator != null">#{creator},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="version != null">#{version},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCloudUser" parameterType="CloudUser">
+        update cloud_user
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="username != null">username = #{username},</if>
+            <if test="password != null">password = #{password},</if>
+            <if test="proxy != null">proxy = #{proxy},</if>
+            <if test="amount != null">amount = #{amount},</if>
+            <if test="accessToken != null">access_token = #{accessToken},</if>
+            <if test="platform != null">platform = #{platform},</if>
+            <if test="uaId != null">ua_id = #{uaId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="creator != null">creator = #{creator},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="version != null">version = #{version},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCloudUserById" parameterType="Long">
+        delete from cloud_user where id = #{id}
+    </delete>
+
+    <delete id="deleteCloudUserByIds" parameterType="String">
+        delete from cloud_user where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

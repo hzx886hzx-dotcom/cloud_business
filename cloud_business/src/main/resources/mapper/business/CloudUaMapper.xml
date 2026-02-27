@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.business.mapper.CloudUaMapper">
+    
+    <resultMap type="CloudUa" id="CloudUaResult">
+        <result property="id"    column="id"    />
+        <result property="ua"    column="ua"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
+    <sql id="selectCloudUaVo">
+        select id, ua, create_time from cloud_ua
+    </sql>
+
+    <select id="selectCloudUaList" parameterType="CloudUa" resultMap="CloudUaResult">
+        <include refid="selectCloudUaVo"/>
+        <where>  
+        </where>
+    </select>
+    
+    <select id="selectCloudUaById" parameterType="Long" resultMap="CloudUaResult">
+        <include refid="selectCloudUaVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertCloudUa" parameterType="CloudUa" useGeneratedKeys="true" keyProperty="id">
+        insert into cloud_ua
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="ua != null">ua,</if>
+            <if test="createTime != null">create_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="ua != null">#{ua},</if>
+            <if test="createTime != null">#{createTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCloudUa" parameterType="CloudUa">
+        update cloud_ua
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="ua != null">ua = #{ua},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCloudUaById" parameterType="Long">
+        delete from cloud_ua where id = #{id}
+    </delete>
+
+    <delete id="deleteCloudUaByIds" parameterType="String">
+        delete from cloud_ua where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

@@ -61,6 +61,13 @@
             <artifactId>ruoyi-generator</artifactId>
         </dependency>
 
+        <!-- 业务模块-->
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>cloud_business</artifactId>
+            <version>3.9.1</version>
+        </dependency>
+
     </dependencies>
 
     <build>

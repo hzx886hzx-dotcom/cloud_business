@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.business.mapper.CloudApiMapper">
+    
+    <resultMap type="CloudApi" id="CloudApiResult">
+        <result property="id"    column="id"    />
+        <result property="category"    column="category"    />
+        <result property="platform"    column="platform"    />
+        <result property="name"    column="name"    />
+        <result property="api"    column="api"    />
+        <result property="method"    column="method"    />
+        <result property="contentType"    column="content_type"    />
+        <result property="headers"    column="headers"    />
+        <result property="body"    column="params"    />
+        <result property="proxy"    column="proxy"    />
+        <result property="timeout"    column="timeout"    />
+        <result property="retryTimes"    column="retry_times"    />
+        <result property="retryInterval"    column="retry_interval"    />
+        <result property="nextExecuteInterval"    column="next_execute_interval"    />
+        <result property="respFormat"    column="resp_format"    />
+        <result property="expectCode"    column="expect_code"    />
+        <result property="status"    column="status"    />
+        <result property="sort"    column="sort"    />
+        <result property="description"    column="description"    />
+        <result property="creator"    column="creator"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="version"    column="version"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectCloudApiVo">
+        select id, category, platform, name, api, method, content_type, headers, params, proxy, timeout, retry_times, retry_interval, next_execute_interval, resp_format, expect_code, status, sort, description, creator, create_by, version, create_time, update_time from cloud_api
+    </sql>
+
+    <select id="selectCloudApiList" parameterType="CloudApi" resultMap="CloudApiResult">
+        <include refid="selectCloudApiVo"/>
+        <where>  
+            <if test="category != null "> and category = #{category}</if>
+            <if test="platform != null "> and platform = #{platform}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="api != null  and api != ''"> and api = #{api}</if>
+            <if test="method != null  and method != ''"> and method = #{method}</if>
+            <if test="contentType != null  and contentType != ''"> and content_type = #{contentType}</if>
+            <if test="status != null "> and status = #{status}</if>
+        </where>
+    </select>
+    
+    <select id="selectCloudApiById" parameterType="Long" resultMap="CloudApiResult">
+        <include refid="selectCloudApiVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertCloudApi" parameterType="CloudApi" useGeneratedKeys="true" keyProperty="id">
+        insert into cloud_api
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="category != null">category,</if>
+            <if test="platform != null">platform,</if>
+            <if test="name != null and name != ''">name,</if>
+            <if test="api != null and api != ''">api,</if>
+            <if test="method != null">method,</if>
+            <if test="contentType != null">content_type,</if>
+            <if test="headers != null">headers,</if>
+            <if test="params != null">params,</if>
+            <if test="proxy != null">proxy,</if>
+            <if test="timeout != null">timeout,</if>
+            <if test="retryTimes != null">retry_times,</if>
+            <if test="retryInterval != null">retry_interval,</if>
+            <if test="nextExecuteInterval != null">next_execute_interval,</if>
+            <if test="respFormat != null">resp_format,</if>
+            <if test="expectCode != null">expect_code,</if>
+            <if test="status != null">status,</if>
+            <if test="sort != null">sort,</if>
+            <if test="description != null">description,</if>
+            <if test="creator != null">creator,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="version != null">version,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="category != null">#{category},</if>
+            <if test="platform != null">#{platform},</if>
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="api != null and api != ''">#{api},</if>
+            <if test="method != null">#{method},</if>
+            <if test="contentType != null">#{contentType},</if>
+            <if test="headers != null">#{headers},</if>
+            <if test="params != null">#{params},</if>
+            <if test="proxy != null">#{proxy},</if>
+            <if test="timeout != null">#{timeout},</if>
+            <if test="retryTimes != null">#{retryTimes},</if>
+            <if test="retryInterval != null">#{retryInterval},</if>
+            <if test="nextExecuteInterval != null">#{nextExecuteInterval},</if>
+            <if test="respFormat != null">#{respFormat},</if>
+            <if test="expectCode != null">#{expectCode},</if>
+            <if test="status != null">#{status},</if>
+            <if test="sort != null">#{sort},</if>
+            <if test="description != null">#{description},</if>
+            <if test="creator != null">#{creator},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="version != null">#{version},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCloudApi" parameterType="CloudApi">
+        update cloud_api
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="category != null">category = #{category},</if>
+            <if test="platform != null">platform = #{platform},</if>
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="api != null and api != ''">api = #{api},</if>
+            <if test="method != null">method = #{method},</if>
+            <if test="contentType != null">content_type = #{contentType},</if>
+            <if test="headers != null">headers = #{headers},</if>
+            <if test="params != null">params = #{params},</if>
+            <if test="proxy != null">proxy = #{proxy},</if>
+            <if test="timeout != null">timeout = #{timeout},</if>
+            <if test="retryTimes != null">retry_times = #{retryTimes},</if>
+            <if test="retryInterval != null">retry_interval = #{retryInterval},</if>
+            <if test="nextExecuteInterval != null">next_execute_interval = #{nextExecuteInterval},</if>
+            <if test="respFormat != null">resp_format = #{respFormat},</if>
+            <if test="expectCode != null">expect_code = #{expectCode},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="sort != null">sort = #{sort},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="creator != null">creator = #{creator},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="version != null">version = #{version},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCloudApiById" parameterType="Long">
+        delete from cloud_api where id = #{id}
+    </delete>
+
+    <delete id="deleteCloudApiByIds" parameterType="String">
+        delete from cloud_api where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
